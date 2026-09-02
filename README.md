@@ -12,8 +12,8 @@
 El propósito de esta aplicación es facilitar el trabajo a las personas encargadas de registro y/o manejo de actividades. Ayuda a simplificar y facilitar los dos ámbitos al proveer información más centralizada y facil de manejar. Los encargados de registrar pueden tener toda la información de los participantes y modificarla fácilmente aunque esta se almacene en diferentes archivos y en el ámbito administrativo se  puede gestionar las actividades que se den, los cuartos que se vayan a utilizar en casos de quedarse a dormir o que se utilicen para alguna actividades. Podran crear un mapa del lugar para poder visualizar y manejar la distribución mejor marcando en que area se haran las actividades. Estas funciones buscan aliviar la carga de las personas encargadas de manejar actividades o estan encargadas del area de reguistro ya que estas areas pueden ser bastante estresantes por la cantidad de trabajo y organización que estas demandan.
 
 ## ✨ Características Principales
-* **[Característica 1]:** Breve explicación (ej. Interfaz gráfica responsiva con CustomTkinter).
-* **[Característica 2]:** Breve explicación (ej. Integración con APIs de la nube o físicas de jugador).
+* **Reguisrto:** Capacidad de marcar que un participante llegó al evento.
+* **Creacion de reportes:** Capacidad de crear reportes personalizados.
 * **[Característica 3]:** Breve explicación (ej. Preprocesamiento de datos y modelo de clasificación).
 
 ## 🛠️ Tecnologías Utilizadas
