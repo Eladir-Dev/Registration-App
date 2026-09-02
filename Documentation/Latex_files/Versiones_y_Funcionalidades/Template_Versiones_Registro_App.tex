@@ -1,0 +1,162 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{float}
+
+\definecolor{navyblue}{RGB}{16,74,123}
+\definecolor{lightblue}{RGB}{225,238,248}
+\definecolor{softgray}{RGB}{245,245,245}
+
+\titleformat{\section}{\Large\bfseries\color{navyblue}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{navyblue}}{}{0em}{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.0cm}
+    \includegraphics[width=0.18\textwidth]{TriTerminal_Logo.jpeg}\\[0.6cm]
+    {\fontsize{22}{26}\selectfont\bfseries\color{navyblue} Template de Versiones y Funcionalidades}\\[0.8cm]
+    {\Large\bfseries Registration-App}\\[0.4cm]
+    {\large Plan de desarrollo por versiones}\\[1.5cm]
+
+    \begin{tabular}{>{\bfseries}p{0.35\textwidth} p{0.55\textwidth}}
+        Proyecto: & Registration-App \\
+        Universidad: & Universidad de Puerto Rico en Bayamón \\
+        Departamento: & Ciencias de Cómputos \\
+        Curso: & SICI-4430-VH1 Gerencia de Proyectos de Sistemas de Información \\
+        Compania: & TriTerminal\\
+        Fecha: & \today
+    \end{tabular}
+
+    \vfill
+    \begin{flushleft}
+        \small\textit{Este documento describe la evolución del sistema a lo largo de sus versiones, incluyendo los objetivos principales, las funciones clave y el alcance esperado de cada etapa de desarrollo.}
+    \end{flushleft}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\section{Resumen Ejecutivo}
+La aplicación Registration-App se desarrollará en varias versiones progresivas con la finalidad de entregar una solución funcional, escalable y fácil de mantener. Cada versión tiene un objetivo claro: comenzar con la lógica básica del registro y luego ampliar las capacidades del sistema con herramientas de administración, análisis y automatización.
+
+Este enfoque permite validar cada etapa del desarrollo, corregir errores de manera temprana y garantizar que cada nueva versión agregue valor real al usuario final.
+
+\section{Estrategia de Versionamiento}
+El sistema se organizará en versiones incrementales, donde cada una representa un conjunto de funcionalidades establecidas y un nivel específico de madurez del producto.\par
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Versión 1.0:} base funcional del sistema.
+    \item \textbf{Versión 1.1:} mejoras de usabilidad y correcciones.
+    \item \textbf{Versión 2.0:} sistema con funcionalidades avanzadas.
+    \item \textbf{Versión 3.0:} administración integral y reportes automatizados.
+\end{itemize}
+
+\section{Versiones del Sistema}
+
+\subsection{Versión 1.0 - MVP (Producto Mínimo Viable)}
+\textbf{Objetivo:}\newline
+Establecer la funcionalidad básica del sistema para registrar participantes y gestionar actividades esenciales.
+
+\textbf{Características principales:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Registro de participantes.
+    \item Control de asistencia.
+    \item Visualización de información básica por persona.
+    \item Gestión inicial de actividades o eventos.
+    \item Interfaz simple y navegación directa.
+\end{itemize}
+
+\textbf{Resultado esperado:}\newline
+Una versión funcional que permita comenzar a usar la aplicación en escenarios reales con una operación básica y estable.
+
+\subsection{Versión 1.1 - Mejoras y Correcciones}
+\textbf{Objetivo:}\newline
+Mejorar la experiencia del usuario, corregir errores detectados y optimizar el flujo de trabajo.
+
+\textbf{Características principales:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Corrección de errores de interfaz.
+    \item Mejoras en la validación de datos.
+    \item Ajustes de usabilidad y organización visual.
+    \item Optimización del rendimiento del registro.
+    \item Mejor manejo de errores en formularios.
+\end{itemize}
+
+\textbf{Resultado esperado:}\newline
+Un sistema más estable, intuitivo y confiable para uso cotidiano.
+
+\subsection{Versión 2.0 - Gestión Avanzada}
+\textbf{Objetivo:}\newline
+Ampliar la funcionalidad del sistema para incluir administración más avanzada de eventos y recursos.
+
+\textbf{Características principales:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Administración de actividades y espacios.
+    \item Asignación de recursos o áreas de uso.
+    \item Registro de habitaciones o salones.
+    \item Visualización de distribución del lugar.
+    \item Organización de la información por categorías.
+\end{itemize}
+
+\textbf{Resultado esperado:}\newline
+Una versión más completa para la coordinación operativa del evento o actividad.
+
+\subsection{Versión 3.0 - Sistema Integral}
+\textbf{Objetivo:}\newline
+Convertir la aplicación en una herramienta integral para la administración total del registro y la operación del evento.
+
+\textbf{Características principales:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Generación de reportes personalizados.
+    \item Exportación de datos en formatos útiles.
+    \item Administración centralizada de registros y eventos.
+    \item Resumen de estadísticas y métricas.
+    \item Panel general de seguimiento y control.
+    \item Módulos preparados para crecimiento futuro.
+\end{itemize}
+
+\textbf{Resultado esperado:}\newline
+Una solución sólida, escalable y lista para ser utilizada por usuarios con necesidades de gestión más complejas.
+
+\section{Comparación de Funcionalidades por Versión}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{0.22\textwidth}|X|X|X|X|}
+\hline
+\rowcolor{lightblue}
+\textcolor{navyblue}{\textbf{Funcionalidad}} & \textcolor{navyblue}{\textbf{1.0}} & \textcolor{navyblue}{\textbf{1.1}} & \textcolor{navyblue}{\textbf{2.0}} & \textcolor{navyblue}{\textbf{3.0}} \\
+\hline
+Registro de participantes & Sí & Sí & Sí & Sí \\
+\hline
+Control de asistencia & Sí & Sí & Sí & Sí \\
+\hline
+Gestión de actividades & Parcial & Parcial & Sí & Sí \\
+\hline
+Administración de áreas o espacios & No & No & Sí & Sí \\
+\hline
+Reportes personalizados & No & No & Parcial & Sí \\
+\hline
+Estadísticas y métricas & No & No & Parcial & Sí \\
+\hline
+Exportación de datos & No & No & No & Sí \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Conclusión}
+El desarrollo de Registration-App seguirá un modelo incremental en el que cada versión amplía el alcance del sistema sin perder estabilidad ni calidad. Este enfoque permite entregar valor de forma gradual, atender necesidades reales del usuario y preparar la aplicación para futuras mejoras y expansión funcional.
+
+\end{document}

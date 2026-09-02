@@ -1,0 +1,126 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{float}
+
+\definecolor{companyblue}{RGB}{16,74,123}
+\definecolor{companygray}{RGB}{245,245,245}
+\definecolor{companyaccent}{RGB}{220,234,245}
+
+\titleformat{\section}{\Large\bfseries\color{companyblue}}{}{0em}{}
+\titleformat{\subsection}{\large\bfseries\color{companyblue}}{}{0em}{}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\centering
+		\vspace*{2cm}
+		{\fontsize{22}{26}\selectfont\bfseries\color{companyblue} Registro de Fases de Desarrollo}\\[0.8cm]
+		{\Large\bfseries Proyecto: Registration-App}\\[0.5cm]
+		{\large Documento interno de planificación y desarrollo}\\[2cm]
+		
+		\begin{tabular}{>{\bfseries}p{0.35\textwidth} p{0.55\textwidth}}
+			Empresa/Organización: & Universidad de Puerto Rico en Bayamón \\
+			Departamento: & Ciencias de Cómputos \\
+			Curso: & SICI-4430-VH1 Gerencia de Proyectos de Sistemas de Información \\
+			Responsable del proyecto: & Equipo de desarrollo \\
+			Fecha: & \today
+		\end{tabular}
+		
+		\vfill
+		\begin{flushleft}
+			\small\textit{Este documento presenta las fases principales del ciclo de vida del sistema, desde el análisis inicial hasta la entrega final y el mantenimiento continuo.}
+		\end{flushleft}
+	\end{titlepage}
+	
+	\tableofcontents
+	\clearpage
+	
+	\section{Resumen Ejecutivo}
+	El proyecto Registration-App busca optimizar la gestión de registros, actividades y organización de eventos mediante una solución tecnológica centralizada. El desarrollo se estructura en varias fases que permiten validar cada componente antes de avanzar al siguiente nivel, reduciendo riesgos, mejorando la calidad del producto y facilitando la toma de decisiones durante la ejecución del proyecto.
+	
+	El objetivo principal es construir una herramienta funcional, confiable y fácil de usar para apoyar la administración de participantes, la generación de reportes y la coordinación operativa de actividades dentro de un entorno institucional.
+	
+	\section{Fases del Proyecto}
+	
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabularx}{\textwidth}{|>{\bfseries}p{0.18\textwidth}|X|p{0.17\textwidth}|p{0.18\textwidth}|}
+			\hline
+			\rowcolor{companyaccent}
+			\textcolor{companyblue}{\textbf{Fase}} & \textcolor{companyblue}{\textbf{Objetivo}} & \textcolor{companyblue}{\textbf{Duración}} & \textcolor{companyblue}{\textbf{Resultado}} \\
+			\hline
+			Fase 1: Inicio & Definir alcance, objetivos y requisitos del sistema. & 1-2 semanas & Documento de requisitos y alcance. \\
+			\hline
+			Fase 2: Diseño & Establecer arquitectura, estructura del sistema y prototipos. & 2 semanas & Especificaciones y mockups. \\
+			\hline
+			Fase 3: Desarrollo & Implementar módulos principales del sistema. & 4-6 semanas & Aplicación funcional con lógica básica. \\
+			\hline
+			Fase 4: Pruebas & Validar funcionamiento, corregir errores y mejorar estabilidad. & 2-3 semanas & Versión estable con pruebas exitosas. \\
+			\hline
+			Fase 5: Implementación & Entregar la solución a usuarios finales y capacitar al equipo. & 1-2 semanas & Sistema operativo en entorno real. \\
+			\hline
+			Fase 6: Mantenimiento & Monitorear rendimiento y aplicar mejoras continuas. & Permanente & Soporte y evolución del producto. \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\section{Descripción de las Fases}
+	
+	\subsection{Fase 1: Inicio y análisis del proyecto}
+	Durante esta fase se identifican los problemas reales que la aplicación debe resolver, así como los objetivos, alcances y limitaciones del sistema. También se recopilan los requisitos funcionales y no funcionales, incluyendo las necesidades del personal encargado del registro, administración y organización de actividades.\par
+	
+	Se elaboran documentos de análisis inicial, se definen los actores del sistema y se valida la viabilidad del proyecto. Esta etapa es esencial para establecer una base sólida y disminuir la probabilidad de cambios costosos más adelante.\par
+	
+	Se decidio...
+	
+	\subsection{Fase 2: Diseño de la solución}
+	En esta fase se define la estructura lógica y visual de la aplicación. Se diseña la arquitectura del sistema, la organización de módulos, la interfaz de usuario y el flujo de trabajo que permitirán la interacción del usuario con la herramienta.\par
+	
+	Se desarrollan prototipos o mockups, se establecen los requisitos de información y se define la relación entre los distintos componentes del proyecto, como el registro de participantes, la gestión de actividades y la generación de reportes. Se dividira decidira como dividir la Fase 3 en etapas de desarrollo.
+	
+	\subsection{Fase 3: Desarrollo del sistema}
+	La fase de desarrollo es la etapa central del proyecto. Aquí se implementan los módulos principales de la aplicación, incluyendo la lógica del registro de personas, la administración de eventos, la gestión de recursos y la creación de reportes.\par
+	
+	Se trabaja con una estructura modular que permite integrar nuevas funciones sin afectar el funcionamiento general del sistema. La prioridad en esta etapa es crear una base funcional, organizada y fácil de mantener.
+	
+	\subsection{Fase 4: Pruebas y validación}
+	Durante la validación se ejecutan pruebas funcionales para confirmar que la aplicación cumple con los requisitos definidos. Se revisa el comportamiento en diferentes escenarios, se corrigen errores, se analiza la usabilidad y se ajustan detalles necesarios para garantizar una experiencia estable y eficiente.\par
+	
+	Esta etapa es clave para detectar problemas de lógica, compatibilidad o rendimiento antes de la entrega final. También permite asegurar que la solución sea confiable para usuarios reales.
+	
+	\subsection{Fase 5: Implementación y entrega}
+	Una vez validado el sistema, se prepara la entrega final a los usuarios o la institución responsable. Se configura el entorno de ejecución, se realiza la instalación necesaria y se proporcionan instrucciones de uso para apoyar la adopción del sistema.\par
+	
+	En esta etapa también se puede ofrecer capacitación básica al personal para que pueda operar la aplicación adecuadamente y aprovechar todas sus funcionalidades.
+	
+	\subsection{Fase 6: Mantenimiento y mejoras continuas}
+	Después de la entrega, el proyecto entra en una etapa de soporte y evolución. El mantenimiento incluye la corrección de errores, la actualización de funcionalidades, la optimización del rendimiento y la incorporación de mejoras sugeridas por los usuarios.\par
+	
+	Esta fase es esencial para garantizar que la aplicación siga siendo útil, segura y alineada con las necesidades del entorno donde se utiliza.
+	
+	\section{Cronograma Estimado}
+	\begin{itemize}[leftmargin=1.5em]
+		\item Fase 1: Inicio y análisis del proyecto
+		\item Fase 2: Diseño y prototipos
+		\item Fase 3: Desarrollo de módulos principales
+		\item Fase 4: Pruebas y validación
+		\item Fase 5: Implementación y entrega
+		\item Fase 6: Mantenimiento y evolución
+	\end{itemize}
+	
+	\section{Conclusión}
+	El desarrollo del sistema Registration-App se planea de manera incremental y organizada, con una secuencia de fases que permite controlar el progreso, minimizar riesgos y maximizar la calidad del producto final. Cada etapa contribuye a la construcción de una solución más sólida, útil y adaptable a las necesidades del usuario final.
+	
+\end{document}
