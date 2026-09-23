@@ -11,12 +11,14 @@ Description:
 This script takes care of the interaction with the Google Drive API. 
 It handles authentication, file uploads, and downloads.
 ======================Modification Info==========================
-Last modification date: 9/sep/2026
+Last modification date: 22/sep/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    *  authenticate_drive, upload_file, and download_file were added.
-        - They are going to be finished at later date.
+    *  Create_Service, get_drive_service, upload_to_drive,
+       download_from_drive, and get_folder_id_by_path were added.
+        - This were function I created for another proyect they 
+          should work fine for this proyect.
     * 
 ================================================================
 """
