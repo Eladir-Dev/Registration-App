@@ -223,3 +223,6 @@ __marimo__/
 *.out
 *.toc
 *.synctex.gz
+
+#bat files
+*.bat
