@@ -60,8 +60,9 @@ def get_users():
         users = response.json()
         
         print("Here are all the users:")
+        # print(users)
         for user in users:
-            print(f"ID: {user['id']} | Username: {user['username']} | Email: {user['email']}")
+            print(f"ID: {user['id_pk']} | Username: {user['name']} | Email: {user['email']}")
     else:
         print(f"Error: Received status code {response.status_code}")
 
