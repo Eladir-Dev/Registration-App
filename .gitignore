@@ -226,3 +226,7 @@ __marimo__/
 
 #bat files
 *.bat
+
+# dia files
+*.dia~
+# Documentation/Diagrams/ERD-TriTerminal.dia~
