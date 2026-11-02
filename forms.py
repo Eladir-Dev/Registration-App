@@ -31,7 +31,7 @@ class forms():
         self.url = "https://reg-app-backend.onrender.com/forms"
 
     def __str__(self):
-        return "Forms class"
+        return f"Forms class: {self.json}"
 
     def create_form_json(self):
         """
