@@ -229,4 +229,5 @@ __marimo__/
 
 # dia files
 *.dia~
+*.dia.autosave
 Documentation/Diagrams/ERD-TriTerminal.png
