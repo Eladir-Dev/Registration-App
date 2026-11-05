@@ -21,19 +21,32 @@ Last modifications:
 """
 import requests
 
+"""
+data format:
+{
+    "excel_path": "path/to/excel/file.xlsx", #Note: This is for google drive.
+    "name": "A", #Letter of the column where the name is located.
+    "email": "B", #Letter of the column where the email is located.
+    "phone": "C" #Letter of the column where the phone is located.
+    .
+    .
+    .
+    Other columns.
+}
+"""
 class forms():
     def __init__(self, user_fk, data, id_pk=None, event_fk=None):
         self.id_pk = id_pk
         self.user_fk = user_fk
         self.event_fk = event_fk
         self.data = data
-        self.json = self.create_form_json()
+        self.json = self.to_json()
         self.url = "https://reg-app-backend.onrender.com/forms"
 
     def __str__(self):
         return f"Forms class: {self.json}"
 
-    def create_form_json(self):
+    def to_json(self):
         """
         This function will be used to create a JSON object from the form data.
         :return: JSON object
@@ -70,7 +83,7 @@ class forms():
         except requests.exceptions.RequestException as err:
             print(f"Connection Error: {err}")
 
-    def import_data(name:int, email:int, phone:int = None):
+    def import_data(self):
         """
         This function will be used to import data from the participants.
         :param name: Number of column for name.
