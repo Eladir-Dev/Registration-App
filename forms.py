@@ -20,6 +20,7 @@ Last modifications:
 ================================================================
 """
 import requests
+import os
 
 """
 data format:
@@ -35,11 +36,12 @@ data format:
 }
 """
 class forms():
-    def __init__(self, user_fk, data, id_pk=None, event_fk=None):
+    def __init__(self, user_fk, data, ,drive_url, id_pk=None, event_fk=None):
         self.id_pk = id_pk
         self.user_fk = user_fk
         self.event_fk = event_fk
         self.data = data
+        self.drive_url = drive_url
         self.json = self.to_json()
         self.url = "https://reg-app-backend.onrender.com/forms"
 
@@ -91,9 +93,32 @@ class forms():
         :param phone: Number of column for phone. (Optional)
         :return: None
         """
-        excel_file = "participants.xlsx"
+        self.download_excel_from_middleman()
+        # excel_file = "participants.xlsx"
 
 
+    def download_excel_from_middleman(self, save_path=f"cache/forms_{self.id_pk}.xlsx"):
+        if os.path.isfile(save_path):
+            return  # File already exists, no need to download again
+        
+        middleman_url = self.url.replace("forms", "download-excel")
+        
+        payload = {
+            "link": self.drive_url
+        }
+        
+        try:
+            # Stream=True is good practice for downloading files
+            response = requests.post(middleman_url, json=payload, stream=True)
+            response.raise_for_status() # Check for HTTP errors
+            
+            # Write the binary content to a local file
+            with open(save_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    file.write(chunk)
+                    
+            print(f"File successfully downloaded and saved to {save_path}")
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to download the file: {e}")
 
-
-       
