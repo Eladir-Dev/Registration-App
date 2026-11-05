@@ -25,7 +25,6 @@ import os
 """
 data format:
 {
-    "excel_path": "path/to/excel/file.xlsx", #Note: This is for google drive.
     "name": "A", #Letter of the column where the name is located.
     "email": "B", #Letter of the column where the email is located.
     "phone": "C" #Letter of the column where the phone is located.
@@ -36,7 +35,7 @@ data format:
 }
 """
 class forms():
-    def __init__(self, user_fk, data, ,drive_url, id_pk=None, event_fk=None):
+    def __init__(self, user_fk, data, drive_url, id_pk=None, event_fk=None):
         self.id_pk = id_pk
         self.user_fk = user_fk
         self.event_fk = event_fk
@@ -93,6 +92,7 @@ class forms():
         """
         self.download_excel_from_middleman()
         # TODO: Implement the logic to read the Excel file and import data into self.data
+        
 
 
     def download_excel_from_middleman(self, save_path=f"cache/forms_{self.id_pk}.xlsx"):
