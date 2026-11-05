@@ -87,14 +87,12 @@ class forms():
 
     def import_data(self):
         """
-        This function will be used to import data from the participants.
-        :param name: Number of column for name.
-        :param email: Number of column for email.
-        :param phone: Number of column for phone. (Optional)
+        This function will be used to import data from the asociated excel file and save 
+        it to the backend's cache.
         :return: None
         """
         self.download_excel_from_middleman()
-        # excel_file = "participants.xlsx"
+        # TODO: Implement the logic to read the Excel file and import data into self.data
 
 
     def download_excel_from_middleman(self, save_path=f"cache/forms_{self.id_pk}.xlsx"):
