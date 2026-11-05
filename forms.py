@@ -16,7 +16,10 @@ Last modified by: Eduardo J. Matos
 Last modifications:
     * Essential modifications were made.
         - Some methods needed to interact with the backend were modified.
-    * 
+    * Get methods werere added to get data from the excel file.
+        - `get_by_name`
+        - `get_by_email`
+        - `get_all_rows`
 ================================================================
 """
 import requests
@@ -57,7 +60,8 @@ class forms():
             "id_pk": self.id_pk,
             "user_fk": self.user_fk,
             "event_fk": self.event_fk,
-            "data": self.data
+            "data": self.data,
+            "drive_url": self.drive_url
         }
         return form_json
 
@@ -84,6 +88,51 @@ class forms():
             print("Details:", response.json())
         except requests.exceptions.RequestException as err:
             print(f"Connection Error: {err}")
+
+    def get_by_name(self, name):
+        """
+        This function will be used to get a row from the excel file 
+        by the name of a person.
+        :return: JSON object of the form if found, else None.
+        """
+        wb = load_workbook('data.xlsx', data_only=True)
+
+        # Select the active sheet (usually the first one)
+        sheet = wb.active
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            row_data = {cell.column_letter: cell.value for cell in row}
+            if row_data.get(self.data["name"]) == name:
+                return row_data
+
+    def get_by_email(self, email):
+        """
+        This function will be used to get a row from the excel file 
+        by the email of a person.
+        :return: JSON object of the form if found, else None.
+        """
+        wb = load_workbook('data.xlsx', data_only=True)
+
+        # Select the active sheet (usually the first one)
+        sheet = wb.active
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            row_data = {cell.column_letter: cell.value for cell in row}
+            if row_data.get(self.data["email"]) == email:
+                return row_data
+
+    def get_all_rows(self):
+        """
+        This function will be used to get all the rows from the excel file.
+        :return: List of JSON objects of the forms.
+        """
+        wb = load_workbook('data.xlsx', data_only=True)
+
+        # Select the active sheet (usually the first one)
+        sheet = wb.active
+        all_rows = []
+        for row in sheet.iter_rows(min_row=2, values_only=True):  # Skip header row
+            row_data = {cell.column_letter: cell.value for cell in row}
+            all_rows.append(row_data)
+        return all_rows
 
     def import_data(self):
         """
