@@ -10,16 +10,13 @@ Contributers:
 Description:
 This script will be used to handle the forms data and send it to the backend.
 ======================Modification Info==========================
-Last modification date: 5/nov/2026
+Last modification date: 6/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    * Essential modifications were made.
-        - Some methods needed to interact with the backend were modified.
-    * Get methods werere added to get data from the excel file.
-        - `get_by_name`
-        - `get_by_email`
-        - `get_all_rows`
+    * Small code fix.
+        - The read file path for the excel file was updated.
+    * 
 ================================================================
 """
 import requests
@@ -95,7 +92,7 @@ class forms():
         by the name of a person.
         :return: JSON object of the form if found, else None.
         """
-        wb = load_workbook('data.xlsx', data_only=True)
+        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
@@ -110,7 +107,7 @@ class forms():
         by the email of a person.
         :return: JSON object of the form if found, else None.
         """
-        wb = load_workbook('data.xlsx', data_only=True)
+        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
@@ -124,7 +121,7 @@ class forms():
         This function will be used to get all the rows from the excel file.
         :return: List of JSON objects of the forms.
         """
-        wb = load_workbook('data.xlsx', data_only=True)
+        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
