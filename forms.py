@@ -16,7 +16,8 @@ Last modified by: Eduardo J. Matos
 Last modifications:
     * Small code fix.
         - The read file path for the excel file was updated.
-    * 
+    * Save on creation.
+        - Know the forms class will save the data to the backend when it is created.
 ================================================================
 """
 import requests
@@ -45,6 +46,8 @@ class forms():
         self.json = self.to_json()
         self.url = "https://reg-app-backend.onrender.com/forms"
 
+        self.save()  # Call save method to send data to the backend
+
     def __str__(self):
         return f"Forms class: {self.json}"
 
@@ -63,6 +66,7 @@ class forms():
         return form_json
 
     def save(self):
+        self.json = self.to_json()  # Update the JSON representation before saving
         try:
             if self.id_pk is None:
                 # If id_pk is None, it's a new record; use POST to create it
