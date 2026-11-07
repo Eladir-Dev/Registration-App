@@ -50,12 +50,6 @@ class Forms():
         if self.data is None:
             self.import_data()  # Import data from the associated Excel file
         
-        if self.id_pk is None:
-            response = requests.post(self.url, json=self.json)
-            response.raise_for_status()
-            updated_record = response.json()
-            self.id_pk = updated_record.get("id_pk") # Or however the backend returns the ID
-        
         
 
     def __str__(self):
@@ -81,6 +75,9 @@ class Forms():
             if self.id_pk is None:
                 # If id_pk is None, it's a new record; use POST to create it
                 response = requests.post(self.url, json=self.json)
+                response.raise_for_status()
+                updated_record = response.json()
+                self.id_pk = updated_record.get("id_pk") # Update the ID here
             else:
                 # The json= parameter automatically sets the Content-Type header to application/json
                 # and serializes the Python dictionary into a JSON string
@@ -113,7 +110,10 @@ class Forms():
         for row in sheet.iter_rows(min_row=2):
             row_data = {cell.column_letter: cell.value for cell in row}
             if row_data.get(self.data["name"]) == name:
+                wb.close()
                 return row_data
+        wb.close()
+        return None
 
     def get_by_email(self, email):
         """
@@ -128,7 +128,10 @@ class Forms():
         for row in sheet.iter_rows(min_row=2):
             row_data = {cell.column_letter: cell.value for cell in row}
             if row_data.get(self.data["email"]) == email:
+                wb.close()
                 return row_data
+        wb.close()
+        return None
 
     def get_all_rows(self):
         """
@@ -144,6 +147,7 @@ class Forms():
         for row in sheet.iter_rows(min_row=2): 
             row_data = {cell.column_letter: cell.value for cell in row}
             all_rows.append(row_data)
+        wb.close()
         return all_rows
 
     def import_data(self):
@@ -154,7 +158,6 @@ class Forms():
         """
         
         # TODO: Implement the logic to read the Excel file and import data into self.data
-        def import_data(self):
         self.download_excel_from_middleman()
         wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
         sheet = wb.active
