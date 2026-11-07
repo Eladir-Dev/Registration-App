@@ -78,10 +78,11 @@ class Forms():
                 response.raise_for_status()
                 updated_record = response.json()
                 self.id_pk = updated_record.get("id_pk") # Update the ID here
+                self.json = self.to_json()  # Update the JSON representation with the new ID
             else:
                 # The json= parameter automatically sets the Content-Type header to application/json
                 # and serializes the Python dictionary into a JSON string
-                response = requests.put(f"{self.url}/{self.id_pk}", json=self.json)
+                response = requests.put(f"{self.url}/{self.id_pk}", json=self.json, timeout=120)
             
             # Check if the HTTP status code is 200-299; raises an exception if not
             response.raise_for_status()
@@ -163,6 +164,8 @@ class Forms():
         sheet = wb.active
         for row in sheet.iter_rows(min_row=2, max_row=10, min_col=1, max_col=3, values_only=True):
             print(row)
+
+        wb.close()
 
     def download_excel_from_middleman(self, save_path=None):
         os.makedirs("cache", exist_ok=True) # Create the cache directory if it doesn't exist
