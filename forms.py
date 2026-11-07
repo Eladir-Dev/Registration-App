@@ -10,14 +10,13 @@ Contributers:
 Description:
 This script will be used to handle the forms data and send it to the backend.
 ======================Modification Info==========================
-Last modification date: 6/nov/2026
+Last modification date: 7/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    * Small code fix.
-        - The read file path for the excel file was updated.
-    * Save on creation.
-        - Know the forms class will save the data to the backend when it is created.
+    * code fix.
+        - Some bugs fixed.
+    * 
 ================================================================
 """
 import requests
@@ -36,8 +35,8 @@ data format:
     Other columns.
 }
 """
-class forms():
-    def __init__(self, user_fk, data, drive_url, id_pk=None, event_fk=None):
+class Forms():
+    def __init__(self, user_fk, drive_url, data=None, id_pk=None, event_fk=None):
         self.id_pk = id_pk
         self.user_fk = user_fk
         self.event_fk = event_fk
@@ -47,6 +46,17 @@ class forms():
         self.url = "https://reg-app-backend.onrender.com/forms"
 
         self.save()  # Call save method to send data to the backend
+        
+        if self.data is None:
+            self.import_data()  # Import data from the associated Excel file
+        
+        if self.id_pk is None:
+            response = requests.post(self.url, json=self.json)
+            response.raise_for_status()
+            updated_record = response.json()
+            self.id_pk = updated_record.get("id_pk") # Or however the backend returns the ID
+        
+        
 
     def __str__(self):
         return f"Forms class: {self.json}"
@@ -100,7 +110,7 @@ class forms():
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
-        for row in sheet.iter_rows(min_row=2, values_only=True):
+        for row in sheet.iter_rows(min_row=2):
             row_data = {cell.column_letter: cell.value for cell in row}
             if row_data.get(self.data["name"]) == name:
                 return row_data
@@ -115,7 +125,7 @@ class forms():
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
-        for row in sheet.iter_rows(min_row=2, values_only=True):
+        for row in sheet.iter_rows(min_row=2):
             row_data = {cell.column_letter: cell.value for cell in row}
             if row_data.get(self.data["email"]) == email:
                 return row_data
@@ -130,7 +140,8 @@ class forms():
         # Select the active sheet (usually the first one)
         sheet = wb.active
         all_rows = []
-        for row in sheet.iter_rows(min_row=2, values_only=True):  # Skip header row
+        # Remove values_only=True
+        for row in sheet.iter_rows(min_row=2): 
             row_data = {cell.column_letter: cell.value for cell in row}
             all_rows.append(row_data)
         return all_rows
@@ -141,12 +152,19 @@ class forms():
         it to the backend's cache.
         :return: None
         """
-        self.download_excel_from_middleman()
+        
         # TODO: Implement the logic to read the Excel file and import data into self.data
+        def import_data(self):
+        self.download_excel_from_middleman()
+        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        sheet = wb.active
         for row in sheet.iter_rows(min_row=2, max_row=10, min_col=1, max_col=3, values_only=True):
-            print(row) # Returns a tuple of the cell values in that row
+            print(row)
 
-    def download_excel_from_middleman(self, save_path=f"cache/forms_{self.id_pk}.xlsx"):
+    def download_excel_from_middleman(self, save_path=None):
+        os.makedirs("cache", exist_ok=True) # Create the cache directory if it doesn't exist
+        if save_path is None:
+            save_path = f"cache/forms_{self.id_pk}.xlsx"
         if os.path.isfile(save_path):
             return  # File already exists, no need to download again
         
