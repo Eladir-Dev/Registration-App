@@ -16,7 +16,7 @@ Last modified by: Eduardo J. Matos
 Last modifications:
     * code fix.
         - Some bugs fixed.
-    * 
+    * added error handeling to the get functions.
 ================================================================
 """
 import requests
@@ -104,7 +104,14 @@ class Forms():
         by the name of a person.
         :return: JSON object of the form if found, else None.
         """
-        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        try:
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except FileNotFoundError:
+            self.download_excel_from_middleman()
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except Exception as e:
+            print(f"An error occurred while loading the workbook: {e}")
+            return []
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
@@ -122,7 +129,14 @@ class Forms():
         by the email of a person.
         :return: JSON object of the form if found, else None.
         """
-        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        try:
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except FileNotFoundError:
+            self.download_excel_from_middleman()
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except Exception as e:
+            print(f"An error occurred while loading the workbook: {e}")
+            return []
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
@@ -139,7 +153,14 @@ class Forms():
         This function will be used to get all the rows from the excel file.
         :return: List of JSON objects of the forms.
         """
-        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        try:
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except FileNotFoundError:
+            self.download_excel_from_middleman()
+            wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+        except Exception as e:
+            print(f"An error occurred while loading the workbook: {e}")
+            return []
 
         # Select the active sheet (usually the first one)
         sheet = wb.active
@@ -171,8 +192,8 @@ class Forms():
         os.makedirs("cache", exist_ok=True) # Create the cache directory if it doesn't exist
         if save_path is None:
             save_path = f"cache/forms_{self.id_pk}.xlsx"
-        if os.path.isfile(save_path):
-            return  # File already exists, no need to download again
+        # if os.path.isfile(save_path):
+        #     return  # File already exists, no need to download again
         
         middleman_url = self.url.replace("forms", "download-excel")
         
