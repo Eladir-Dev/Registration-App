@@ -74,7 +74,7 @@ class Forms():
         try:
             if self.id_pk is None:
                 # If id_pk is None, it's a new record; use POST to create it
-                response = requests.post(self.url, json=self.json)
+                response = requests.post(self.url, json=self.json, timeout=120)
                 response.raise_for_status()
                 updated_record = response.json()
                 self.id_pk = updated_record.get("id_pk") # Update the ID here
@@ -179,7 +179,7 @@ class Forms():
         
         try:
             # Stream=True is good practice for downloading files
-            response = requests.post(middleman_url, json=payload, stream=True)
+            response = requests.post(middleman_url, json=payload, stream=True, timeout=120)
             response.raise_for_status() # Check for HTTP errors
             
             # Write the binary content to a local file
