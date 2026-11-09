@@ -10,13 +10,13 @@ Contributers:
 Description:
 This script will be used to handle the forms data and send it to the backend.
 ======================Modification Info==========================
-Last modification date: 7/nov/2026
+Last modification date: 9/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    * code fix.
-        - Some bugs fixed.
-    * added error handeling to the get functions.
+    * refresh method implemented.
+        - updates the local data from the backend.
+    * 
 ================================================================
 """
 import requests
@@ -54,6 +54,27 @@ class Forms():
 
     def __str__(self):
         return f"Forms class: {self.json}"
+
+    def refresh(self):
+        """
+        This function will be used to refresh the form data from the backend.
+        :return: None
+        """
+        try:
+            response = requests.get(f"{self.url}/{self.id_pk}", timeout=120)
+            response.raise_for_status()  # Raise an exception for HTTP errors
+            updated_record = response.json()
+            self.user_fk = updated_record.get("user_fk")
+            self.event_fk = updated_record.get("event_fk")
+            self.data = updated_record.get("data")
+            self.drive_url = updated_record.get("drive_url")
+            self.json = self.to_json()  # Update the JSON representation
+            print("Refresh successful:", updated_record)
+        except requests.exceptions.HTTPError as err:
+            print(f"HTTP Error: {err}")
+            print("Details:", response.json())
+        except requests.exceptions.RequestException as err:
+            print(f"Connection Error: {err}")
 
     def to_json(self):
         """
@@ -172,21 +193,21 @@ class Forms():
         wb.close()
         return all_rows
 
-    def import_data(self):
-        """
-        This function will be used to import data from the asociated excel file and save 
-        it to the backend's cache.
-        :return: None
-        """
+    # def import_data(self):
+    #     """
+    #     This function will be used to import data from the asociated excel file and save 
+    #     it to the backend's cache.
+    #     :return: None
+    #     """
         
-        # TODO: Implement the logic to read the Excel file and import data into self.data
-        self.download_excel_from_middleman()
-        wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
-        sheet = wb.active
-        for row in sheet.iter_rows(min_row=2, max_row=10, min_col=1, max_col=3, values_only=True):
-            print(row)
+    #     # TODO: Implement the logic to read the Excel file and import data into self.data
+    #     self.download_excel_from_middleman()
+    #     wb = load_workbook(f"cache/forms_{self.id_pk}.xlsx", data_only=True)
+    #     sheet = wb.active
+    #     for row in sheet.iter_rows(min_row=2, max_row=10, min_col=1, max_col=3, values_only=True):
+    #         print(row)
 
-        wb.close()
+    #     wb.close()
 
     def download_excel_from_middleman(self, save_path=None):
         os.makedirs("cache", exist_ok=True) # Create the cache directory if it doesn't exist
