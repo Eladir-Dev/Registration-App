@@ -48,9 +48,10 @@ def test_ui():
         elif choice == "2":
             get_forms()
         elif choice == "3":
-            test_form = create_test_form()
-            print("Test form created:")
-            print(test_form)
+            # test_form = create_test_form()
+            # print("Test form created:")
+            # print(test_form)
+            print("The forms was already created")
         elif choice == "0":
             print("Exiting the test UI.")
             break

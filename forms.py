@@ -54,14 +54,14 @@ class Forms():
         #     self.import_data()  # Import data from the associated Excel file
         
 
-    # def __str__(self):
-        json_bonito = self.json.dumps(self.data, indent=4, sort_keys=True, ensure_ascii=False)
+    def __str__(self):
+        # json_bonito = self.json.dumps(self.data, indent=4, sort_keys=True, ensure_ascii=False)
         # 1. Crear una instancia de Console habilitando los colores de terminal
         console = Console(color_system="truecolor")
 
         # 2. Capturar la salida en lugar de mandarla a la pantalla
         with console.capture() as capture:
-            console.print_json(data=data)
+            console.print_json(data=self.json)
 
         # 3. Guardar el resultado en una variable de tipo string
         return capture.get()
