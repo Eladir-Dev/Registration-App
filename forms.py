@@ -64,7 +64,7 @@ class Forms():
             console.print_json(data=data)
 
         # 3. Guardar el resultado en una variable de tipo string
-        return = capture.get()
+        return capture.get()
         # return f"Forms class: {json_bonito}"
 
     def refresh(self):
