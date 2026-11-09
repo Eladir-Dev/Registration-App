@@ -16,7 +16,8 @@ Last modified by: Eduardo J. Matos
 Last modifications:
     * refresh method implemented.
         - updates the local data from the backend.
-    * 
+    * get_app_email method implemented.
+        - gets the email of the app from the backend.
 ================================================================
 """
 import requests
@@ -36,7 +37,7 @@ data format:
 }
 """
 class Forms():
-    def __init__(self, user_fk, drive_url, data=None, id_pk=None, event_fk=None):
+    def __init__(self, user_fk, drive_url, data, id_pk=None, event_fk=None):
         self.id_pk = id_pk
         self.user_fk = user_fk
         self.event_fk = event_fk
@@ -47,9 +48,8 @@ class Forms():
 
         self.save()  # Call save method to send data to the backend
         
-        if self.data is None:
-            self.import_data()  # Import data from the associated Excel file
-        
+        # if self.data is None:
+        #     self.import_data()  # Import data from the associated Excel file
         
 
     def __str__(self):
@@ -118,6 +118,39 @@ class Forms():
             print("Details:", response.json())
         except requests.exceptions.RequestException as err:
             print(f"Connection Error: {err}")
+
+    def delete(self):
+        """
+        This function will be used to delete the form data from the backend.
+        :return: None
+        """
+        try:
+            response = requests.delete(f"{self.url}/{self.id_pk}", timeout=120)
+            response.raise_for_status()  # Raise an exception for HTTP errors
+            print("Delete successful:", response.json())
+        except requests.exceptions.HTTPError as err:
+            print(f"HTTP Error: {err}")
+            print("Details:", response.json())
+        except requests.exceptions.RequestException as err:
+            print(f"Connection Error: {err}")
+
+    def get_app_email(self):
+        """
+        This function will be used to get the email of the app from the backend.
+        :return: email of the app.
+        """
+        try:
+            response = requests.get(f"{self.url}/app-email", timeout=120)
+            response.raise_for_status()  # Raise an exception for HTTP errors
+            app_email = response.json().get("email")
+            return app_email
+        except requests.exceptions.HTTPError as err:
+            print(f"HTTP Error: {err}")
+            print("Details:", response.json())
+            return None
+        except requests.exceptions.RequestException as err:
+            print(f"Connection Error: {err}")
+            return None
 
     def get_by_name(self, name):
         """
