@@ -231,3 +231,8 @@ __marimo__/
 *.dia~
 *.dia.autosave
 Documentation/Diagrams/ERD-TriTerminal.png
+
+code_review.txt
+
+SECURITY_AUDIT.txt
+SECURITY-REVIEW.md
