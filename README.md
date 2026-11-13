@@ -37,9 +37,9 @@ Antes de clonar y ejecutar el proyecto, asegúrate de tener instalado:
 
 2. **Crear y activar entorno virtual (Si aplica):**
    ```bash
-   python -m venv venv
+   python -m venv .venv
    # En Ubuntu/Linux:
-   source venv/bin/activate
+   source .venv/bin/activate
    # En Windows:
    venv\Scripts\activate
    ```
