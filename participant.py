@@ -40,7 +40,7 @@ class Participant:
         self.phone = phone
         
         # Pulls the base URL from the environment, defaulting to the Render URL if not found
-        base_url = os.getenv("API_BASE_URL", "https://reg-app-backend.onrender.com")
+        base_url = os.getenv("API_BASE_URL")
         self.url = f"{base_url}/participant"
         
         self.json = self.to_json()

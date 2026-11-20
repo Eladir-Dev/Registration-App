@@ -46,7 +46,9 @@ class Forms():
         self.data = data # json that contains: for example {"name"= "A", "email"="B", "phone"="C"}
         self.drive_url = drive_url
         self.json = self.to_json()
-        self.url = "https://reg-app-backend.onrender.com/forms"
+        
+        base_url = os.getenv("API_BASE_URL")
+        self.url = f"{base_url}/forms"
 
         self.save()  # Call save method to send data to the backend
         
