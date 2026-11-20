@@ -15,11 +15,8 @@ Last modification date: 19/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
+    * Added methods to add/remove participant from room and event.
     * Implemented environment variable for API base URL.
-    * Implemented requests.Session() for connection pooling.
-        - This improves performance by reusing TCP connections for multiple requests.
-        - Still most be tested to see if it works as expected.
-    * Fixed string capture and JSON parsing bugs in refresh and __str__.
 ================================================================
 """
 import os
@@ -136,6 +133,34 @@ class Participant:
                 print("Details:", response.text)
         except requests.exceptions.RequestException as err:
             print(f"Connection Error: {err}")
+
+    def add_participant_to_room(self, room_fk):
+        """
+        Assigns the participant to a specific room by updating the room_fk.
+        """
+        self.room_fk = room_fk
+        self.save()  # Save the updated participant data to the backend
+
+    def add_participant_to_event(self, event_fk):
+        """
+        Assigns the participant to a specific event by updating the event_fk.
+        """
+        self.event_fk = event_fk
+        self.save()  # Save the updated participant data to the backend
+
+    def remove_participant_from_room(self):
+        """
+        Removes the participant from their assigned room by setting room_fk to None.
+        """
+        self.room_fk = None
+        self.save()  # Save the updated participant data to the backend
+
+    def remove_participant_from_event(self):
+        """
+        Removes the participant from their assigned event by setting event_fk to None.
+        """
+        self.event_fk = None
+        self.save()  # Save the updated participant data to the backend
 
     def delete(self):
         """

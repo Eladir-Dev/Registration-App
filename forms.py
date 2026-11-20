@@ -14,10 +14,9 @@ Last modification date: 9/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    * refresh method implemented.
-        - updates the local data from the backend.
-    * get_app_email method implemented.
-        - gets the email of the app from the backend.
+    * Participant creation added.
+        - The method create_participant was created. This method
+          adds all the participants in the excel to the data base.
 ================================================================
 """
 import requests
@@ -25,6 +24,7 @@ import os
 from openpyxl import load_workbook
 from rich.console import Console
 from rich.json import JSON
+from participant import Participant
 
 """
 data format:
@@ -46,7 +46,7 @@ class Forms():
         self.data = data # json that contains: for example {"name"= "A", "email"="B", "phone"="C"}
         self.drive_url = drive_url
         self.json = self.to_json()
-        
+
         base_url = os.getenv("API_BASE_URL")
         self.url = f"{base_url}/forms"
 
@@ -152,6 +152,37 @@ class Forms():
             print("Details:", response.json())
         except requests.exceptions.RequestException as err:
             print(f"Connection Error: {err}")
+
+    def create_participant(self):
+        """
+        This function will be used to create a participant associated with this form.
+        """
+        table = self.get_all_rows()
+        if self.event_fk == None:
+            return
+        for row in table:
+            parametros = {"name": row.get(self.data.get("name")), "email": row.get(self.data.get("email"))}
+
+            answer = requests.get(f"{self.url}/email_name_search", params=parametros)
+
+            if answer.status_code == 200:
+                record = answer.json()
+                temp_participant = Participant(
+                    name=record.get("name"),
+                    email=record.get("email"),
+                    phone=record.get("phone"),
+                    id_pk=record.get("id_pk"),
+                    event_fk=self.event_fk
+                )
+            else:
+                print("No se encontró el participante.")
+                temp_participant = Participant(
+                    name=row.get(self.data.get("name")),
+                    email=row.get(self.data.get("email")),
+                    phone=row.get(self.data.get("phone")),
+                    id_pk=None,
+                    event_fk=self.event_fk
+                )
 
     def get_app_email(self):
         """
