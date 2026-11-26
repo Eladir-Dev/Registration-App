@@ -53,6 +53,7 @@ class Participant:
         name: {self.name}
         email: {self.email}
         phone: {self.phone}"""
+        # checkin y checkout
         
         with console.capture() as capture:
             console.print_json(data=self.json)
