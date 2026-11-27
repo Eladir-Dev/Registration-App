@@ -11,23 +11,37 @@ Description:
 This script contains the participant class and its methods to 
 interface with the backend application.
 ======================Modification Info==========================
-Last modification date: 19/nov/2026
+Last modification date: 27/nov/2026
 Last modified by: Eduardo J. Matos
 -----------------------------------------------------------------
 Last modifications:
-    * Added methods to add/remove participant from room and event.
-    * Implemented environment variable for API base URL.
+    * Added checkin and checkout date fields to match main.py.
+    * Added helper to serialize date objects to ISO format for JSON.
+    * Updated endpoint URL to /participants to match main.py.
 ================================================================
 """
 import os
+from datetime import date, datetime
 import requests
 from rich.console import Console
+
 
 class Participant:
     # Class-level session shares the TCP connection pool across all instances
     _session = requests.Session()
 
-    def __init__(self, event_fk, name, email, phone=None, user_fk=None, room_fk=None, id_pk=None):
+    def __init__(
+        self,
+        event_fk,
+        name,
+        email,
+        phone=None,
+        user_fk=None,
+        room_fk=None,
+        checkin=None,
+        checkout=None,
+        id_pk=None,
+    ):
         self.id_pk = id_pk
         self.event_fk = event_fk
         self.user_fk = user_fk
@@ -35,26 +49,38 @@ class Participant:
         self.name = name
         self.email = email
         self.phone = phone
-        
+        self.checkin = checkin
+        self.checkout = checkout
+
         # Pulls the base URL from the environment, defaulting to the Render URL if not found
         base_url = os.getenv("API_BASE_URL")
-        self.url = f"{base_url}/participant"
-        
+        self.url = f"{base_url}/participants"
+
         self.json = self.to_json()
         self.save()
 
+    @staticmethod
+    def _format_date(value):
+        """Converts date/datetime objects to YYYY-MM-DD strings for FastAPI."""
+        if isinstance(value, datetime):
+            return value.date().isoformat()
+        if isinstance(value, date):
+            return value.isoformat()
+        return value
+
     def __str__(self):
         console = Console(color_system="truecolor")
-        
+
         output = f"""id_pk: {self.id_pk}
         event_fk: {self.event_fk}
         user_fk: {self.user_fk}
         room_fk: {self.room_fk}
         name: {self.name}
         email: {self.email}
-        phone: {self.phone}"""
-        # checkin y checkout
-        
+        phone: {self.phone}
+        checkin: {self.checkin}
+        checkout: {self.checkout}"""
+
         with console.capture() as capture:
             console.print_json(data=self.json)
 
@@ -70,19 +96,21 @@ class Participant:
 
         try:
             response = self._session.get(f"{self.url}/{self.id_pk}", timeout=120)
-            response.raise_for_status() 
-            updated_record = response.json() 
-            
+            response.raise_for_status()
+            updated_record = response.json()
+
             self.event_fk = updated_record.get("event_fk")
             self.user_fk = updated_record.get("user_fk")
             self.room_fk = updated_record.get("room_fk")
             self.name = updated_record.get("name")
             self.email = updated_record.get("email")
             self.phone = updated_record.get("phone")
-            
+            self.checkin = updated_record.get("checkin")
+            self.checkout = updated_record.get("checkout")
+
             self.json = self.to_json()
             print("Refresh successful:", updated_record)
-            
+
         except requests.exceptions.HTTPError as err:
             print(f"HTTP Error: {err}")
             try:
@@ -103,7 +131,9 @@ class Participant:
             "room_fk": self.room_fk,
             "name": self.name,
             "email": self.email,
-            "phone": self.phone
+            "phone": self.phone,
+            "checkin": self._format_date(self.checkin),
+            "checkout": self._format_date(self.checkout),
         }
 
     def save(self):
@@ -111,21 +141,21 @@ class Participant:
         Saves the participant's data to the backend. Creates a new record if id_pk is None,
         otherwise updates the existing record.
         """
-        self.json = self.to_json() 
+        self.json = self.to_json()
         try:
             if self.id_pk is None:
                 response = self._session.post(self.url, json=self.json, timeout=120)
                 response.raise_for_status()
                 updated_record = response.json()
-                self.id_pk = updated_record.get("id_pk") 
-                self.json = self.to_json() 
+                self.id_pk = updated_record.get("id_pk")
+                self.json = self.to_json()
             else:
                 response = self._session.put(f"{self.url}/{self.id_pk}", json=self.json, timeout=120)
                 response.raise_for_status()
                 updated_record = response.json()
-            
+
             print("Update successful:", updated_record)
-            
+
         except requests.exceptions.HTTPError as err:
             print(f"HTTP Error: {err}")
             try:
@@ -140,28 +170,28 @@ class Participant:
         Assigns the participant to a specific room by updating the room_fk.
         """
         self.room_fk = room_fk
-        self.save()  # Save the updated participant data to the backend
+        self.save()
 
     def add_participant_to_event(self, event_fk):
         """
         Assigns the participant to a specific event by updating the event_fk.
         """
         self.event_fk = event_fk
-        self.save()  # Save the updated participant data to the backend
+        self.save()
 
     def remove_participant_from_room(self):
         """
         Removes the participant from their assigned room by setting room_fk to None.
         """
         self.room_fk = None
-        self.save()  # Save the updated participant data to the backend
+        self.save()
 
     def remove_participant_from_event(self):
         """
         Removes the participant from their assigned event by setting event_fk to None.
         """
         self.event_fk = None
-        self.save()  # Save the updated participant data to the backend
+        self.save()
 
     def delete(self):
         """
@@ -170,11 +200,11 @@ class Participant:
         if not self.id_pk:
             print("Cannot delete: id_pk is missing.")
             return
-            
+
         try:
             response = self._session.delete(f"{self.url}/{self.id_pk}", timeout=120)
             response.raise_for_status()
-            print("Delete successful:", response.json())
+            print("Delete successful.")
         except requests.exceptions.HTTPError as err:
             print(f"HTTP Error: {err}")
             try:
